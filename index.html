@@ -111,21 +111,21 @@
       <a href="https://wa.me/+2348087357158" title="Whatsapp"><i class="fab fa-whatsapp"></i></a>
       <a href="https://github.com/samkiel488"><i class="fab fa-github"></i></a>
       <a href="tel:+2348087357158" title="Call Me"><i class="fas fa-phone"></i></a>
-      <a href="https://x.com/samkiel_dev"><i class="fab fa-twitter"></i></a>
+      <a href="https://x.com/ѕαмкιєℓ.∂єν"><i class="fab fa-twitter"></i></a>
   </footer>
   
     <script>
       const messages = [
-        "Congratulations on your matriculation! Welcome to the Great Ife family!",
-        "Your journey at OAU begins now. Wishing you success and fulfillment!",
-        "Welcome to the land of wisdom and excellence. Best wishes for your studies!",
-        "Embarking on a new chapter at OAU. May your path be filled with achievements!",
-        "From the heart of Ile-Ife, we welcome you to OAU. Shine bright!",
-        "As you step into OAU, may your academic journey be as illustrious as our heritage!",
-        "Welcome to the citadel of learning. Here's to a successful tenure at OAU!",
-        "Your matriculation is just the beginning. Wishing you a rewarding experience at OAU!",
-        "From the OAU community, we congratulate you and wish you a prosperous academic journey!",
-        "Welcome to the Great Ife experience. May your time at OAU be memorable and successful!"
+        "Congratulations on your matriculation! Welcome to the Great Ife family! Best wishes from ѕαмкιєℓ.∂єν",
+        "Your journey at OAU begins now. Wishing you success and fulfillment! Best wishes from ѕαмкιєℓ.∂єν",
+        "Welcome to the land of wisdom and excellence. Best wishes for your studies! Best wishes from ѕαмкιєℓ.∂єν",
+        "Embarking on a new chapter at OAU. May your path be filled with achievements! Best wishes from ѕαмкιєℓ.∂єν",
+        "From the heart of Ile-Ife, we welcome you to OAU. Shine bright! Best wishes from ѕαмкιєℓ.∂єν",
+        "As you step into OAU, may your academic journey be as illustrious as our heritage! Best wishes from ѕαмкιєℓ.∂єν",
+        "Welcome to the citadel of learning. Here's to a successful tenure at OAU! Best wishes from ѕαмкιєℓ.∂єν",
+        "Your matriculation is just the beginning. Wishing you a rewarding experience at OAU! Best wishes from ѕαмкιєℓ.∂єν",
+        "From the OAU community, we congratulate you and wish you a prosperous academic journey! Best wishes from ѕαмкιєℓ.∂єν",
+        "Welcome to the Great Ife experience. May your time at OAU be memorable and successful! Best wishes from ѕαмкιєℓ.∂єν"
       ];
 
       // Function to wrap text into multiple lines
@@ -146,6 +146,12 @@
           }
         }
         lines.push(line); // Add the last line
+
+        // Ensure text stays within canvas bounds
+        let totalHeight = lines.length * lineHeight;
+        if (y + totalHeight > ctx.canvas.height) {
+          y = ctx.canvas.height - totalHeight;  // Adjust y position to fit text
+        }
 
         // Draw the lines of text
         for (let i = 0; i < lines.length; i++) {
@@ -213,10 +219,11 @@
               // Secondary message (wrap text after 30 characters)
               const secondaryMessage =
                 messages[Math.floor(Math.random() * messages.length)];
-              const lineSpacing = fontSize * 1.5;
+              const lineSpacing = fontSize * 1.5; // Adjust line spacing if needed
 
-              // Wrap the secondary message
-              wrapText(ctx, secondaryMessage, canvas.width / 2, canvas.height - textBoxHeight / 2 - 40 + lineSpacing, canvas.width - 20, fontSize * 1.5);
+              // Calculate maximum text height (don't exceed 1/6th of canvas height)
+              const availableHeight = canvas.height - textBoxHeight - 40;  // Adjust for margins
+              wrapText(ctx, secondaryMessage, canvas.width / 2, canvas.height - textBoxHeight / 2 - 40 + lineSpacing, canvas.width - 20, lineSpacing);
 
               // Add watermark at the top-right corner
               ctx.fillStyle = "rgba(255, 255, 255, 0.7)"; // Semi-transparent white
