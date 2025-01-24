@@ -69,7 +69,7 @@
     <div style="position: absolute; top: 10px; left: 10px; font-size: 24px; color: black;">
       ѕαмкιєℓ.∂єν
     </div>
-        <div class="text-center mt-6">
+    <div class="text-center mt-6">
       <p>Welcome! Wetin to do no hard at all, just click on choose file, then select the picture wey you snap with that borrowed iPhone. After that, click "Upload." You go see the generated picture, then you fit choose to download am and upload am to your status. No dey stingy, refer am to your friends make dem check am out too.</p>
     </div>
 
@@ -112,7 +112,7 @@
       <a href="https://github.com/samkiel488"><i class="fab fa-github"></i></a>
       <a href="tel:+2348087357158" title="Call Me"><i class="fas fa-phone"></i></a>
       <a href="https://x.com/ѕαмкιєℓ.∂єν"><i class="fab fa-twitter"></i></a>
-  </footer>
+    </footer>
   
     <script>
       const messages = [
@@ -128,53 +128,27 @@
         "Welcome to the Great Ife experience. May your time at OAU be memorable and successful! Best wishes from ѕαмкιєℓ.∂єν"
       ];
 
-      // Function to wrap text into multiple lines
       function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
         let words = text.split(' ');
         let line = '';
-        let lines = [];
 
         for (let n = 0; n < words.length; n++) {
           let testLine = line + words[n] + ' ';
           let testWidth = ctx.measureText(testLine).width;
-          
+
           if (testWidth > maxWidth) {
-            lines.push(line);
+            ctx.fillText(line, x, y);
             line = words[n] + ' ';
+            y += lineHeight;
           } else {
             line = testLine;
           }
         }
-        lines.push(line); // Add the last line
-
-        // Ensure text stays within canvas bounds
-        let totalHeight = lines.length * lineHeight;
-        if (y + totalHeight > ctx.canvas.height) {
-          y = ctx.canvas.height - totalHeight;  // Adjust y position to fit text
-        }
-
-        // Draw the lines of text
-        for (let i = 0; i < lines.length; i++) {
-          ctx.fillText(lines[i], x, y + (i * lineHeight));
-        }
+        ctx.fillText(line, x, y);
       }
 
       document.getElementById("uploadForm").addEventListener("submit", function (event) {
         event.preventDefault();
-
-        // Display the alert
-        const existingAlert = document.querySelector(".alert");
-        if (!existingAlert) {
-          const alertDiv = document.createElement("div");
-          alertDiv.className = "alert";
-          alertDiv.textContent = "Welcome to OAU!!!";
-          document.body.appendChild(alertDiv);
-
-          // Remove the alert after 3 seconds
-          setTimeout(() => {
-            alertDiv.remove();
-          }, 3000);
-        }
 
         const fileInput = document.getElementById("imageUpload");
         const file = fileInput.files[0];
@@ -189,7 +163,7 @@
               canvas.width = img.width;
               canvas.height = img.height;
 
-              // Draw the image
+              // Draw image
               ctx.drawImage(img, 0, 0);
 
               // Add semi-transparent background for text
@@ -202,7 +176,7 @@
                 textBoxHeight
               );
 
-              // Add text with line spacing and bold styling
+              // Add text with spacing
               ctx.fillStyle = "white";
               ctx.textAlign = "center";
               const fontSize = Math.floor(canvas.width / 20);
@@ -213,29 +187,29 @@
               ctx.fillText(
                 mainMessage,
                 canvas.width / 2,
-                canvas.height - textBoxHeight / 2 - 40
+                canvas.height - textBoxHeight + fontSize
               );
 
-              // Secondary message (wrap text after 30 characters)
+              // Secondary message
               const secondaryMessage =
                 messages[Math.floor(Math.random() * messages.length)];
-              const lineSpacing = fontSize * 1.5; // Adjust line spacing if needed
-
-              // Calculate maximum text height (don't exceed 1/6th of canvas height)
-              const availableHeight = canvas.height - textBoxHeight - 40;  // Adjust for margins
-              wrapText(ctx, secondaryMessage, canvas.width / 2, canvas.height - textBoxHeight / 2 - 40 + lineSpacing, canvas.width - 20, lineSpacing);
-
-              // Add watermark at the top-right corner
-              ctx.fillStyle = "rgba(255, 255, 255, 0.7)"; // Semi-transparent white
-              ctx.font = `italic ${fontSize / 2}px Arial`; // Smaller font for watermark
-              ctx.textAlign = "right";
-              ctx.fillText(
-                "ѕαмкιєℓ.∂єν",
-                canvas.width - 10, // 10px from the right edge
-                20 // 20px from the top edge
+              const lineSpacing = fontSize * 1.5;
+              wrapText(
+                ctx,
+                secondaryMessage,
+                canvas.width / 2,
+                canvas.height - textBoxHeight + fontSize * 2.5,
+                canvas.width - 40,
+                lineSpacing
               );
 
-              // Enable download button
+              // Watermark
+              ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
+              ctx.font = `italic ${fontSize / 2}px Arial`;
+              ctx.textAlign = "right";
+              ctx.fillText("ѕαмкιєℓ.∂єν", canvas.width - 10, 20);
+
+              // Enable download
               const downloadBtn = document.getElementById("downloadBtn");
               downloadBtn.href = canvas.toDataURL("image/jpeg");
               document.getElementById("result").classList.remove("hidden");
