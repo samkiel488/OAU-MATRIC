@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Matriculation Congratulations</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .download-btn {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #4caf50;
+        color: white;
+        border-radius: 5px;
+        text-decoration: none;
+      }
+      .download-btn:hover {
+        background-color: #45a049;
+      }
+      .hidden {
+        display: none;
+      }
+      .text-center {
+        margin-top: 20px;
+        padding-bottom: 50px;
+      }
+      .alert {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        background-color: green;
+        color: white;
+        text-align: center;
+        padding: 10px;
+        font-weight: bold;
+        z-index: 1000;
+      }
+      footer {
+        text-align: center;
+        margin-top: 20px;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-top: 1px solid #ddd;
+      }
+      footer a {
+        margin: 0 10px;
+        color: #555;
+        text-decoration: none;
+      }
+      footer a:hover {
+        color: #000;
+      }
+      footer i {
+        font-size: 20px;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-4">
+    <div style="position: absolute; top: 10px; left: 10px; font-size: 24px; color: black;">
+      ѕαмкιєℓ.∂єν
+    </div>
+    
+    <div class="text-center mt-6">
+      <p>Welcome! Wetin to do no hard at all, just click on "Add," choose file, then select the picture wey you snap with that borrowed iPhone. After that, click "Upload." You go see the generated picture, then you fit choose to download am and upload am to your status. No dey stingy, refer am to your friends make dem check am out too.</p>
+    </div>
+
+    <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
+      <h1 class="text-2xl font-bold text-center mb-4">
+        Upload Your Picture 👇
+      </h1>
+      <form class="flex flex-col items-center" id="uploadForm">
+        <input
+          accept="image/*"
+          class="mb-4 p-2 border rounded"
+          id="imageUpload"
+          required
+          type="file"
+        />
+        <button
+          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          type="submit"
+        >
+          Upload
+        </button>
+      </form>
+      <div class="mt-6 hidden" id="result">
+        <canvas id="imageCanvas" class="w-full rounded-lg"></canvas>
+        <a
+          id="downloadBtn"
+          class="download-btn"
+          href="#"
+          download="matriculation-image.jpg"
+        >
+          Download Image
+        </a>
+      </div>
+    </div>
+
+    <footer style="font-family: 'Courier New', Courier, monospace; text-align: center; padding: 20px; background-color: #f8f8f8; border-top: 1px solid #ccc;">
+      2025 © ѕαмкιєℓ.∂єν <br> Contact Me
+      <a href="https://www.facebook.com/samkiel06"><i class="fab fa-facebook"></i></a>
+      <a href="https://wa.me/+2348087357158" title="Whatsapp"><i class="fab fa-whatsapp"></i></a>
+      <a href="https://github.com/samkiel488"><i class="fab fa-github"></i></a>
+      <a href="tel:+2348087357158" title="Call Me"><i class="fas fa-phone"></i></a>
+      <a href="https://x.com/samkiel_dev"><i class="fab fa-twitter"></i></a>
+  </footer>
+  
+    <script>
+      const messages = [
+        "Congratulations on your matriculation! Welcome to the Great Ife family!",
+        "Your journey at OAU begins now. Wishing you success and fulfillment!",
+        "Welcome to the land of wisdom and excellence. Best wishes for your studies!",
+        "Embarking on a new chapter at OAU. May your path be filled with achievements!",
+        "From the heart of Ile-Ife, we welcome you to OAU. Shine bright!",
+        "As you step into OAU, may your academic journey be as illustrious as our heritage!",
+        "Welcome to the citadel of learning. Here's to a successful tenure at OAU!",
+        "Your matriculation is just the beginning. Wishing you a rewarding experience at OAU!",
+        "From the OAU community, we congratulate you and wish you a prosperous academic journey!",
+        "Welcome to the Great Ife experience. May your time at OAU be memorable and successful!"
+      ];
+
+      // Function to wrap text into multiple lines
+      function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+        let words = text.split(' ');
+        let line = '';
+        let lines = [];
+
+        for (let n = 0; n < words.length; n++) {
+          let testLine = line + words[n] + ' ';
+          let testWidth = ctx.measureText(testLine).width;
+          
+          if (testWidth > maxWidth) {
+            lines.push(line);
+            line = words[n] + ' ';
+          } else {
+            line = testLine;
+          }
+        }
+        lines.push(line); // Add the last line
+
+        // Draw the lines of text
+        for (let i = 0; i < lines.length; i++) {
+          ctx.fillText(lines[i], x, y + (i * lineHeight));
+        }
+      }
+
+      document.getElementById("uploadForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        // Display the alert
+        const existingAlert = document.querySelector(".alert");
+        if (!existingAlert) {
+          const alertDiv = document.createElement("div");
+          alertDiv.className = "alert";
+          alertDiv.textContent = "Welcome to OAU!!!";
+          document.body.appendChild(alertDiv);
+
+          // Remove the alert after 3 seconds
+          setTimeout(() => {
+            alertDiv.remove();
+          }, 3000);
+        }
+
+        const fileInput = document.getElementById("imageUpload");
+        const file = fileInput.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            const canvas = document.getElementById("imageCanvas");
+            const ctx = canvas.getContext("2d");
+            const img = new Image();
+            img.src = e.target.result;
+            img.onload = function () {
+              canvas.width = img.width;
+              canvas.height = img.height;
+
+              // Draw the image
+              ctx.drawImage(img, 0, 0);
+
+              // Add semi-transparent background for text
+              const textBoxHeight = Math.floor(canvas.height / 6);
+              ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
+              ctx.fillRect(
+                0,
+                canvas.height - textBoxHeight,
+                canvas.width,
+                textBoxHeight
+              );
+
+              // Add text with line spacing and bold styling
+              ctx.fillStyle = "white";
+              ctx.textAlign = "center";
+              const fontSize = Math.floor(canvas.width / 20);
+              ctx.font = `bold ${fontSize}px Arial`;
+
+              // Main message
+              const mainMessage = "Congratulations on Your Matriculation!";
+              ctx.fillText(
+                mainMessage,
+                canvas.width / 2,
+                canvas.height - textBoxHeight / 2 - 40
+              );
+
+              // Secondary message (wrap text after 30 characters)
+              const secondaryMessage =
+                messages[Math.floor(Math.random() * messages.length)];
+              const lineSpacing = fontSize * 1.5;
+
+              // Wrap the secondary message
+              wrapText(ctx, secondaryMessage, canvas.width / 2, canvas.height - textBoxHeight / 2 - 40 + lineSpacing, canvas.width - 20, fontSize * 1.5);
+
+              // Add watermark at the top-right corner
+              ctx.fillStyle = "rgba(255, 255, 255, 0.7)"; // Semi-transparent white
+              ctx.font = `italic ${fontSize / 2}px Arial`; // Smaller font for watermark
+              ctx.textAlign = "right";
+              ctx.fillText(
+                "ѕαмкιєℓ.∂єν",
+                canvas.width - 10, // 10px from the right edge
+                20 // 20px from the top edge
+              );
+
+              // Enable download button
+              const downloadBtn = document.getElementById("downloadBtn");
+              downloadBtn.href = canvas.toDataURL("image/jpeg");
+              document.getElementById("result").classList.remove("hidden");
+            };
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    </script>
+  </body>
+</html>

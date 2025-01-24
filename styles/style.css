@@ -1,0 +1,18 @@
+body {
+  font-family: Arial, sans-serif;
+}
+.download-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border-radius: 5px;
+  text-decoration: none;
+}
+.download-btn:hover {
+  background-color: #45a049;
+}
+.hidden {
+  display: none;
+}
